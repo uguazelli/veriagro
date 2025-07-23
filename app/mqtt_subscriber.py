@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-MQTT_BROKER = os.getenv("POSTGRES_USER", "localhost")
+MQTT_BROKER = os.getenv("MQTT_BROKER", "localhost")
 MQTT_PORT = os.getenv("MQTT_PORT", 1883)
 TOPIC = os.getenv("TOPIC", "sensor/+/data")
 
