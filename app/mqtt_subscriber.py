@@ -1,5 +1,5 @@
-import json
 import os
+import json
 from aiomqtt import Client
 from app.models.sensor_data import SensorDataCreate
 from app.crud.sensor_data import insert_sensor_data
@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 MQTT_BROKER = os.getenv("MQTT_BROKER", "localhost")
-MQTT_PORT = os.getenv("MQTT_PORT", 1883)
+MQTT_PORT = int(os.getenv("MQTT_PORT", 1883))
 TOPIC = os.getenv("TOPIC", "sensor/+/data")
 
 async def mqtt_listener():

@@ -1,23 +1,20 @@
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
+from uuid import UUID
 
 class SensorCreate(BaseModel):
-    sensor_id: str
-    user_id: int
-    nome: Optional[str]
-    tipo: Optional[str]
-    modelo: Optional[str]
-    fabricante: Optional[str]
-    unidade: Optional[str] = "%"
+    device_id: UUID
+    name: Optional[str]
+    type: Optional[str]
+    model: Optional[str]
+    manufacturer: Optional[str]
 
 class SensorOut(BaseModel):
-    id: int
-    sensor_id: str
-    user_id: int
-    nome: Optional[str]
-    tipo: Optional[str]
-    modelo: Optional[str]
-    fabricante: Optional[str]
-    unidade: Optional[str]
-    criado_em: datetime
+    id: UUID
+    device_id: UUID
+    name: Optional[str]
+    type: Optional[str]
+    model: Optional[str]
+    manufacturer: Optional[str]
+    created_at: datetime

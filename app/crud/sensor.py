@@ -1,38 +1,29 @@
 from app.models.sensor import SensorCreate
 import asyncpg
+import uuid
 
 async def create_sensor(conn: asyncpg.Connection, sensor: SensorCreate):
-    row = await conn.fetchrow(
-        """
-        INSERT INTO sensors (sensor_id, user_id, nome, tipo, modelo, fabricante, unidade)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
-        RETURNING id, sensor_id, user_id, nome, tipo, modelo, fabricante, unidade, criado_em
-        """,
-        sensor.sensor_id, sensor.user_id, sensor.nome, sensor.tipo,
-        sensor.modelo, sensor.fabricante, sensor.unidade
-    )
+    sensor_id = str(uuid.uuid4())
+
+    row = await conn.fetchrow("""
+        INSERT INTO sensors (id, device_id, name, type, model, manufacturer,  created_at)
+        VALUES ($1, $2, $3, $4, $5, $6, now())
+        RETURNING *
+    """, sensor_id, sensor.device_id, sensor.name, sensor.type, sensor.model, sensor.manufacturer)
+
     return dict(row)
 
-async def get_sensor_by_id(conn: asyncpg.Connection, sensor_id: str):
-    row = await conn.fetchrow(
-        "SELECT * FROM sensors WHERE sensor_id = $1", sensor_id
-    )
-    return dict(row) if row else None
+async def get_sensor_by_id(conn: asyncpg.Connection, id: uuid.UUID):
+    rows = await conn.fetch("SELECT * FROM sensors WHERE id = $1", id)
+    return [dict(row) for row in rows]
 
-async def update_sensor(conn: asyncpg.Connection, sensor_id: str, update_data: dict):
-    await conn.execute(
-        """
-        UPDATE sensors
-        SET nome = $1, tipo = $2, modelo = $3, fabricante = $4, unidade = $5
-        WHERE sensor_id = $6
-        """,
-        update_data.get("nome"), update_data.get("tipo"),
-        update_data.get("modelo"), update_data.get("fabricante"),
-        update_data.get("unidade"), sensor_id
-    )
 
-async def delete_sensor(conn: asyncpg.Connection, sensor_id: str):
-    await conn.execute(
-        "DELETE FROM sensors WHERE sensor_id = $1",
-        sensor_id
-    )
+async def get_sensor_by_device_id(conn: asyncpg.Connection, device_id: uuid.UUID):
+    rows = await conn.fetch("SELECT * FROM sensors WHERE device_id = $1", device_id)
+    return [dict(row) for row in rows]
+
+async def delete_sensor(conn: asyncpg.Connection, sensor_id: uuid.UUID):
+    row = await conn.fetchrow("DELETE FROM sensors WHERE id = $1 RETURNING *", sensor_id)
+    if row:
+        return dict(row)
+    return None
