@@ -15,6 +15,8 @@ async def create_mqtt_credential(conn: asyncpg.Connection, mqtt_credential: Mqtt
     """, credential_id, mqtt_credential.device_id, mqtt_credential.mqtt_username, hashed_password)
     return MqttCredentialOut(**dict(row))
 
+
+
 async def get_mqtt_credential(conn: asyncpg.Connection, credential_id: str):
     row = await conn.fetchrow("""
         SELECT id, device_id, mqtt_username, mqtt_password_hash, created_at
@@ -26,6 +28,19 @@ async def get_mqtt_credential(conn: asyncpg.Connection, credential_id: str):
         return None
 
     return MqttCredentialOut(**dict(row))
+
+
+
+async def get_mqtt_credentials_by_device(conn: asyncpg.Connection, device_id: str):
+    rows = await conn.fetch("""
+        SELECT id, device_id, mqtt_username, mqtt_password_hash, created_at
+        FROM mqtt_credentials
+        WHERE device_id = $1
+    """, device_id)
+
+    return [MqttCredentialOut(**dict(row)) for row in rows]
+
+
 
 async def delete_mqtt_credential(conn: asyncpg.Connection, credential_id: str):
     result = await conn.execute("""

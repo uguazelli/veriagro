@@ -16,6 +16,12 @@ async def create_mqtt_credential(mqtt_credential: MqttCredentialCreate, conn: as
 async def get_mqtt_credential(credential_id: str, conn: asyncpg.Connection = Depends(get_db)):
     return await crud.get_mqtt_credential(conn, credential_id)
 
+
+@router.get("/device/{device_id}", response_model=list[MqttCredentialOut])
+async def get_mqtt_credentials_by_device(device_id: str, conn: asyncpg.Connection = Depends(get_db)):
+    return await crud.get_mqtt_credentials_by_device(conn, device_id)
+
+
 @router.delete("/{credential_id}", status_code=204)
 async def delete_mqtt_credential(credential_id: str, conn: asyncpg.Connection = Depends(get_db)):
     await crud.delete_mqtt_credential(conn, credential_id)

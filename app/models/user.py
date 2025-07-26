@@ -1,22 +1,24 @@
-from pydantic import BaseModel
-from typing import Optional
 from datetime import datetime
+from pydantic import BaseModel, EmailStr
 from uuid import UUID
+from typing import Optional
 
 class UserCreate(BaseModel):
-    email: str
+    email: EmailStr
     password: str
-    role: Optional[str] = None
 
 class UserOut(BaseModel):
     id: UUID
-    email: str
-    role: str
-    created_at: datetime
+    email: EmailStr
+    created_at: Optional[datetime] = None
+
 
 class UserLogin(BaseModel):
-    email: str
+    email: EmailStr
     password: str
+
+class UserInDB(UserOut):
+    hashed_password: str
 
 class TokenOut(BaseModel):
     access_token: str

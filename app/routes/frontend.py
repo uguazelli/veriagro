@@ -11,5 +11,8 @@ def login(): return FileResponse("static/login.html")
 @router.get("/register")
 def register(): return FileResponse("static/register.html")
 
+# @router.get("/dashboard")
+# def dashboard(): return FileResponse("static/dashboard.html")
+
 @router.get("/dashboard")
-def dashboard(): return FileResponse("static/dashboard.html")
+def dashboard(): return FileResponse("static/veriagro-dashboard/index.html")

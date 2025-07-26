@@ -1,7 +1,7 @@
-from pydantic import BaseModel
-from typing import Optional
 from datetime import datetime
+from pydantic import BaseModel
 from uuid import UUID
+from typing import Optional, Dict
 
 class SensorCreate(BaseModel):
     device_id: UUID
@@ -9,6 +9,8 @@ class SensorCreate(BaseModel):
     type: Optional[str]
     model: Optional[str]
     manufacturer: Optional[str]
+    model_id: Optional[UUID]
+    config: Optional[Dict]
 
 class SensorOut(BaseModel):
     id: UUID
@@ -17,4 +19,6 @@ class SensorOut(BaseModel):
     type: Optional[str]
     model: Optional[str]
     manufacturer: Optional[str]
-    created_at: datetime
+    model_id: Optional[UUID]
+    config: Optional[Dict]
+    created_at: Optional[datetime]

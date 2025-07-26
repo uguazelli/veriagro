@@ -11,7 +11,7 @@ services:
       POSTGRES_DB: postgres # boa prática explicitar
     volumes:
       - local_pgdata:/var/lib/postgresql/data
-      - ./init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+      - ./init:/docker-entrypoint-initdb.d
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 10s

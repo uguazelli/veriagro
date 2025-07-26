@@ -3,16 +3,16 @@ from pydantic import BaseModel
 from uuid import UUID
 from typing import Optional
 
-class SensorDataIn(BaseModel):
+class AlertCreate(BaseModel):
     sensor_id: UUID
-    unit: Optional[str]
     value: float
-    status: Optional[str]
+    level: str
+    message: str
 
-class SensorDataOut(BaseModel):
+class AlertOut(BaseModel):
     id: UUID
     sensor_id: UUID
-    unit: Optional[str]
     value: float
-    status: Optional[str]
+    level: str
+    message: str
     timestamp: Optional[datetime]

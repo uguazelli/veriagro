@@ -3,6 +3,7 @@ from jose import JWTError, jwt
 import bcrypt
 import os
 import asyncpg
+from uuid import UUID
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -13,11 +14,10 @@ SECRET_KEY = os.getenv("SECRET_KEY", "super-secret-key")  # 🔐 Use env var in 
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
-
-
 # OAuth2 token extractor pointing to your login route
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/login")
 
+# Password hashing
 def hash_password(plain_password: str) -> str:
     salt = bcrypt.gensalt()
     return bcrypt.hashpw(plain_password.encode("utf-8"), salt).decode("utf-8")
@@ -25,12 +25,12 @@ def hash_password(plain_password: str) -> str:
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return bcrypt.checkpw(plain_password.encode("utf-8"), hashed_password.encode("utf-8"))
 
+# JWT creation
 def create_access_token(data: dict, expires_delta: timedelta = None) -> str:
     to_encode = data.copy()
     expire = datetime.utcnow() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-
 
 # Extract current user from token
 async def get_current_user(
@@ -45,17 +45,42 @@ async def get_current_user(
 
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        user_id: str = payload.get("sub")
-        if user_id is None:
+        user_id_str: str = payload.get("sub")
+        if not user_id_str:
             raise credentials_exception
-    except JWTError:
+        user_id = UUID(user_id_str)
+    except (JWTError, ValueError):
         raise credentials_exception
 
-    user = await conn.fetchrow("SELECT id, email, role, created_at FROM users WHERE id = $1", user_id)
-    if not user:
+    # Get user basic info
+    user_row = await conn.fetchrow(
+        "SELECT id, email, created_at FROM users WHERE id = $1", user_id
+    )
+    if not user_row:
         raise credentials_exception
 
-    return dict(user)
+    # Get role from company_memberships (most recent)
+    role_row = await conn.fetchrow(
+        """
+        SELECT role, company_id
+        FROM company_memberships
+        WHERE user_id = $1
+        ORDER BY created_at DESC
+        LIMIT 1
+        """,
+        user_id,
+    )
+
+    user_dict = dict(user_row)
+    if role_row:
+        user_dict["role"] = role_row["role"]
+        user_dict["company_id"] = role_row["company_id"]
+    else:
+        user_dict["role"] = "user"
+        user_dict["company_id"] = None
+
+    return user_dict
+
 
 # Only allow admin
 async def get_current_admin(user: dict = Depends(get_current_user)):

@@ -1,0 +1,57 @@
+ /* ===============================
+ style.css (Optional Customizations)
+ =============================== */
+ :root {
+     --primary-color: #22c55e;
+     --secondary-color: #1f2937;
+     --background-color: #111827;
+     --text-color: #f3f4f6;
+     --card-color: #1f2937;
+ }
+
+ body {
+     background-color: var(--background-color);
+     color: var(--text-color);
+ }
+
+ .sidebar {
+     background-color: var(--secondary-color);
+ }
+
+ .nav-link {
+     border-left: 3px solid transparent;
+     transition: all 0.3s ease;
+ }
+
+ .nav-link.active,
+ .nav-link:hover {
+     background-color: var(--primary-color);
+     border-left-color: var(--text-color);
+     color: white;
+ }
+
+ .card {
+     background-color: var(--card-color);
+ }
+
+ .btn-primary {
+     background-color: var(--primary-color);
+     transition: background-color 0.3s ease;
+ }
+
+ .btn-primary:hover {
+     background-color: #16a34a;
+ }
+
+ .input-field {
+     background-color: #374151;
+     border: 1px solid #4b5563;
+     color: var(--text-color);
+ }
+
+ .input-field:focus {
+     outline: none;
+     ring: 2px;
+     ring-color: var(--primary-color);
+     border-color: var(--primary-color);
+ }
