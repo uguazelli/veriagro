@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css" rel="stylesheet" />
+    <title>VeriAgro - Sensors</title>
+</head>
+
+<body>
+    <div class="page">
+        <header class="navbar navbar-expand-md d-print-none">
+            <div class="container-xl">
+                <a class="navbar-brand navbar-brand-autodark me-3" href="#">VeriAgro</a>
+                <a class="btn btn-outline-secondary ms-auto" href="/device-settings">← Back</a>
+            </div>
+        </header>
+        <div class="page-wrapper">
+            <div class="page-body">
+                <div class="container-xl">
+                    <h2 id="page-title" class="mb-4">Sensors for Device</h2>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3 class="card-title">Add a New Sensor</h3>
+                        </div>
+                        <div class="card-body">
+                            <form class="row g-3" id="sensor-form">
+                                <div class="col-auto"><input class="form-control" id="sensor_name"
+                                        placeholder="Sensor Name" type="text" /></div>
+                                <div class="col-auto"><input class="form-control" id="sensor_type" placeholder="Type"
+                                        type="text" /></div>
+                                <div class="col-auto"><input class="form-control" id="sensor_model" placeholder="Model"
+                                        type="text" /></div>
+                                <div class="col-auto"><input class="form-control" id="sensor_manufacturer"
+                                        placeholder="Manufacturer" type="text" /></div>
+                                <div class="col-auto">
+                                    <input class="form-control" id="sensor_model_id" placeholder="Model ID (UUID)"
+                                        type="text" />
+                                </div>
+                                <div class="col-auto">
+                                    <textarea class="form-control" id="sensor_config"
+                                        placeholder='Config JSON (e.g., {"key":"value"})'></textarea>
+                                </div>
+
+                                <div class="col-auto"><button class="btn btn-success" type="submit">Add Sensor</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3 class="card-title">Sensors</h3>
+                        </div>
+                        <div class="card-body" id="sensors-table-container">Loading sensors...</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Sensor Data</h3>
+                        </div>
+                        <div class="card-body" id="sensor-data-table-container">Loading sensor data...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/device_settings/js/main.js"></script>
+    <script src="/static/device_settings/js/sensor.js"></script>
+</body>
+
+</html>

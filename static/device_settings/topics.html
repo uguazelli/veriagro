@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css" rel="stylesheet" />
+    <title>VeriAgro - Topics & Credentials</title>
+</head>
+
+<body>
+    <div class="page">
+        <header class="navbar navbar-expand-md d-print-none">
+            <div class="container-xl">
+                <a class="navbar-brand navbar-brand-autodark me-3" href="#">VeriAgro</a>
+                <a class="btn btn-outline-secondary ms-auto" href="/device-settings">&larr; Back</a>
+            </div>
+        </header>
+        <div class="page-wrapper">
+            <div class="page-body">
+                <div class="container-xl">
+                    <h2 id="page-title" class="mb-4">MQTT Topics for Device</h2>
+
+                    <!-- Add Topic Form -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3 class="card-title">Add a New MQTT Topic</h3>
+                        </div>
+                        <div class="card-body">
+                            <form class="row g-3" id="topic-form">
+                                <div class="col-auto"><input class="form-control" id="topic" placeholder="Topic"
+                                        type="text" /></div>
+                                <div class="col-auto">
+                                    <select class="form-select" id="direction">
+                                        <option value="publish">Publish</option>
+                                        <option value="subscribe">Subscribe</option>
+                                    </select>
+                                </div>
+                                <div class="col-auto"><button class="btn btn-success" type="submit">Add Topic</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Topic Table -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3 class="card-title">MQTT Topics</h3>
+                        </div>
+                        <div class="card-body" id="topics-table-container">Loading topics...</div>
+                    </div>
+
+                    <!-- Credential Form -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3 class="card-title">Add MQTT Credential</h3>
+                        </div>
+                        <div class="card-body">
+                            <form class="row g-3" id="credential-form">
+                                <div class="col-auto"><input class="form-control" id="mqtt_username"
+                                        placeholder="MQTT Username" type="text" /></div>
+                                <div class="col-auto"><input class="form-control" id="mqtt_password_hash"
+                                        placeholder="MQTT Password" type="password" /></div>
+                                <div class="col-auto"><button class="btn btn-primary" type="submit">Add
+                                        Credential</button></div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Credential Table -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3 class="card-title">MQTT Credentials</h3>
+                        </div>
+                        <div class="card-body" id="credentials-table-container">Loading credentials...</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/device_settings/js/main.js"></script>
+    <script src="/static/device_settings/js/topics.js"></script>
+</body>
+
+</html>

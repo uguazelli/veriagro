@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css" rel="stylesheet" />
     <title>VeriAgro - Devices</title>
 </head>
@@ -20,112 +21,245 @@
             <div class="page-body">
                 <div class="container-xl">
                     <div class="row row-deck row-cards">
-                        <!-- Device Form -->
-                        <div class="col-12">
+
+
+
+
+
+
+
+                        <div class="col-6">
                             <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Add a New Device</h3>
-                                </div>
                                 <div class="card-body">
-                                    <form class="row g-3" id="device-form">
-                                        <div class="col-auto"><input class="form-control" id="name"
-                                                placeholder="Device Name" type="text" /></div>
-                                        <div class="col-auto"><input class="form-control" id="model" placeholder="Model"
-                                                type="text" /></div>
-                                        <div class="col-auto"><input class="form-control" id="serial_number"
-                                                placeholder="Serial Number" type="text" /></div>
-                                        <div class="col-auto"><input class="form-control" id="location"
-                                                placeholder="Location" type="text" /></div>
-                                        <div class="col-auto"><input class="form-control" id="latitude"
-                                                placeholder="Latitude" type="text" /></div>
-                                        <div class="col-auto"><input class="form-control" id="longitude"
-                                                placeholder="Longitude" type="text" /></div>
-                                        <div class="col-auto"><button class="btn btn-primary" type="submit">Add
-                                                Device</button></div>
-                                    </form>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h3>Welcome back, ${username}</h3>
+                                            <p class="text-muted">You have 5 new messages and 2 new notifications.</p>
+                                            <div class="col-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-6 d-flex flex-column justify-content-end">
+                                                                <div class="subheader">Telegram notifications in the
+                                                                    last 24 hours</div>
+                                                                <div class="d-flex align-items-baseline">
+                                                                    <div class="h3 me-2">6,782</div>
+                                                                    <div class="me-auto">
+                                                                        <span
+                                                                            class="text-green d-inline-flex align-items-center lh-1">
+                                                                            7%
+                                                                            <!-- Download SVG icon from http://tabler.io/icons/icon/trending-up -->
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="24" height="24"
+                                                                                viewBox="0 0 24 24" fill="none"
+                                                                                stroke="currentColor" stroke-width="2"
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round"
+                                                                                class="icon ms-1 icon-2">
+                                                                                <path d="M3 17l6 -6l4 4l8 -8"></path>
+                                                                                <path d="M14 7l7 0l0 7"></path>
+                                                                            </svg>
+                                                                        </span>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="progress progress-sm">
+                                                                    <div class="progress-bar bg-success"
+                                                                        style="width: 75%" role="progressbar"
+                                                                        aria-valuenow="75" aria-valuemin="0"
+                                                                        aria-valuemax="100" aria-label="75% Complete">
+                                                                        <span class="visually-hidden">75%
+                                                                            Complete</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 d-flex flex-column justify-content-end">
+                                                                <div class="subheader">Alerts in the last 24 hours</div>
+
+                                                                <div class="d-flex align-items-baseline">
+                                                                    <div class="h3 me-2">78,4%</div>
+                                                                    <div class="me-auto">
+                                                                        <span
+                                                                            class="text-red d-inline-flex align-items-center lh-1">
+                                                                            -1%
+                                                                            <!-- Download SVG icon from http://tabler.io/icons/icon/trending-down -->
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="24" height="24"
+                                                                                viewBox="0 0 24 24" fill="none"
+                                                                                stroke="currentColor" stroke-width="2"
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round"
+                                                                                class="icon ms-1 icon-2">
+                                                                                <path d="M3 7l6 6l4 -4l8 8"></path>
+                                                                                <path d="M21 10l0 7l-7 0"></path>
+                                                                            </svg>
+                                                                        </span>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="progress progress-sm">
+                                                                    <div class="progress-bar bg-danger"
+                                                                        style="width: 78%" role="progressbar"
+                                                                        aria-valuenow="78" aria-valuemin="0"
+                                                                        aria-valuemax="100" aria-label="78% Complete">
+                                                                        <span class="visually-hidden">78%
+                                                                            Complete</span>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-6">
+                                            <img src="/static/images/undraw_real-time-analytics_50za.svg"
+                                                style="width: 100%;" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Device Table -->
+                        <div class="col-3">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <canvas id="tempChart"></canvas>
+                                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                                    <script>
+                                        const ctx = document.getElementById('tempChart');
+                                        const tempChart = new Chart(ctx, {
+                                            type: 'line',
+                                            data: {
+                                                labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex'],
+                                                datasets: [{
+                                                    label: 'Temperatura (°C)',
+                                                    data: [31, 29, 27, 30, 32],
+                                                    borderColor: 'orange',
+                                                    tension: 0.3
+                                                }]
+                                            }
+                                        });
+                                    </script>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title">Humidity History</h3>
+                                    <div id="chart-demo-area" class="position-relative "></div>
+                                </div>
+                            </div>
+
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    window.ApexCharts && (new ApexCharts(document.getElementById('chart-demo-area'), {
+                                        chart: {
+                                            type: "area",
+                                            fontFamily: 'inherit',
+                                            height: 240,
+                                            parentHeightOffset: 0,
+                                            toolbar: {
+                                                show: false,
+                                            },
+                                            animations: {
+                                                enabled: false
+                                            },
+                                        },
+                                        dataLabels: {
+                                            enabled: false,
+                                        },
+                                        fill: {
+                                            colors: [
+                                                'rgba(0, 123, 255, 0.2)',  // Azul transparente
+                                                'rgba(255, 99, 132, 0.2)'  // Rosa transparente
+                                            ],
+                                            type: 'solid'
+                                        },
+                                        stroke: {
+                                            width: 2,
+                                            lineCap: "round",
+                                            curve: "smooth",
+                                        },
+                                        series: [{
+                                            name: "Field 1",
+                                            data: [56, 40, 39, 47, 34, 98, 44]
+                                        }, {
+                                            name: "Field 2",
+                                            data: [45, 43, 30, 23, 38, 39, 54]
+                                        }],
+                                        tooltip: {
+                                            theme: 'dark'
+                                        },
+                                        grid: {
+                                            padding: {
+                                                top: -20,
+                                                right: 0,
+                                                left: -4,
+                                                bottom: -4
+                                            },
+                                            strokeDashArray: 4,
+                                        },
+                                        xaxis: {
+                                            labels: {
+                                                padding: 0,
+                                            },
+                                            tooltip: {
+                                                enabled: false
+                                            },
+                                            axisBorder: {
+                                                show: false,
+                                            },
+                                            type: 'datetime',
+                                        },
+                                        yaxis: {
+                                            labels: {
+                                                padding: 4
+                                            },
+                                        },
+                                        labels: [
+                                            '2020-06-21', '2020-06-22', '2020-06-23', '2020-06-24', '2020-06-25', '2020-06-26', '2020-06-27'
+                                        ],
+                                        colors: [
+                                            'color-mix(in srgb, transparent, var(--tblr-primary) 100%)',
+                                            'color-mix(in srgb, transparent, var(--tblr-purple) 100%)'
+                                        ],
+                                        legend: {
+                                            show: true,
+                                            position: 'bottom',
+                                            offsetY: 12,
+                                            markers: {
+                                                width: 10,
+                                                height: 10,
+                                                radius: 100,
+                                            },
+                                            itemMargin: {
+                                                horizontal: 8,
+                                                vertical: 8
+                                            },
+                                        },
+                                    })).render();
+                                });
+                            </script>
+                        </div>
                         <div class="col-12">
                             <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Devices</h3>
-                                </div>
-                                <div class="card-body" id="devices-table-container">Loading...</div>
+                                <div class="card-body" style="height: 10rem"></div>
                             </div>
                         </div>
-                    </div> <!-- /row -->
-                </div> <!-- /container -->
-            </div> <!-- /page-body -->
-        </div> <!-- /page-wrapper -->
-    </div> <!-- /page -->
-
-    <script>
-        const token = localStorage.getItem("accessToken");
-        const API_URL = "http://localhost:8000";
-
-        function requireAuth() {
-            if (!token) {
-                window.location.href = "/login";
-            }
-        }
-
-        async function loadDevices() {
-            try {
-                const res = await fetch(`${API_URL}/devices/`, {
-                    headers: { Authorization: `Bearer ${token}`, Accept: "application/json" }
-                });
-                const data = await res.json();
-                renderDevices(data);
-            } catch (e) {
-                console.error("Error loading devices", e);
-            }
-        }
-
-        function renderDevices(devices) {
-            const container = document.getElementById("devices-table-container");
-            const table = document.createElement("table");
-            table.className = "table table-striped";
-            table.innerHTML = `
-        <thead>
-          <tr><th>Name</th><th>Model</th><th>Serial</th><th>Location</th><th>Lat</th><th>Long</th></tr>
-        </thead>
-        <tbody>
-          ${devices.map(d => `
-            <tr data-id="${d.id}">
-              <td>${d.name}</td>
-              <td>${d.model}</td>
-              <td>${d.serial_number}</td>
-              <td>${d.location}</td>
-              <td>${d.latitude}</td>
-              <td>${d.longitude}</td>
-            </tr>
-          `).join("")}
-        </tbody>
-      `;
-
-            const wrapper = document.createElement("div");
-            wrapper.className = "table-responsive";
-            wrapper.appendChild(table);
-            container.innerHTML = "";
-            container.appendChild(wrapper);
-
-            // Navigate to /sensor/{id} on row click
-            table.querySelectorAll("tr[data-id]").forEach(row => {
-                row.addEventListener("click", () => {
-                    const deviceId = row.dataset.id;
-                    window.location.href = `/sensor/${deviceId}`;
-                });
-            });
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            requireAuth();
-            loadDevices();
-        });
-    </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </body>
 
 </html>

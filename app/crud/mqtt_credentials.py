@@ -1,19 +1,35 @@
 import uuid
+from uuid import UUID
 import asyncpg
+from fastapi import HTTPException
 from app.utils.security import hash_password
 from app.models.mqtt_credential import MqttCredentialCreate, MqttCredentialOut
 
 
-async def create_mqtt_credential(conn: asyncpg.Connection, mqtt_credential: MqttCredentialCreate):
+async def create_mqtt_credential(conn: asyncpg.Connection, mqtt_credential: MqttCredentialCreate, company_id: UUID):
+
+    # Verify device belongs to company
+    check = await conn.fetchval(
+        "SELECT 1 FROM devices WHERE id = $1 AND company_id = $2",
+        mqtt_credential.device_id, company_id
+    )
+    if not check:
+        raise HTTPException(status_code=404, detail="Device not found or access denied")
+
     credential_id = str(uuid.uuid4())
     hashed_password = hash_password(mqtt_credential.mqtt_password_hash)
+
+    # 👇 Enforce unique, namespaced username
+    scoped_username = f"{mqtt_credential.device_id}_{mqtt_credential.mqtt_username}"
 
     row = await conn.fetchrow("""
         INSERT INTO mqtt_credentials (id, device_id, mqtt_username, mqtt_password_hash, created_at)
         VALUES ($1, $2, $3, $4, now())
         RETURNING id, device_id, mqtt_username, mqtt_password_hash, created_at
-    """, credential_id, mqtt_credential.device_id, mqtt_credential.mqtt_username, hashed_password)
+    """, credential_id, mqtt_credential.device_id, scoped_username, hashed_password)
+
     return MqttCredentialOut(**dict(row))
+
 
 
 

@@ -11,11 +11,14 @@ def login(): return FileResponse("static/login/index.html")
 @router.get("/register")
 def register(): return FileResponse("static/register.html")
 
-# @router.get("/dashboard")
-# def dashboard(): return FileResponse("static/dashboard.html")
-
-@router.get("/dashboard")
+@router.get("/")
 def dashboard(): return FileResponse("static/dashboard/index.html")
 
-@router.get("/sensor/{id}")
-def dashboard(): return FileResponse("static/dashboard/sensor.html")
+@router.get("/device-settings")
+def dashboard(): return FileResponse("static/device_settings/index.html")
+
+@router.get("/sensor-settings/{id}")
+def dashboard(): return FileResponse("static/device_settings/sensor.html")
+
+@router.get("/topics-settings/{id}")
+def dashboard(): return FileResponse("static/device_settings/topics.html")

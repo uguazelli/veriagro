@@ -3,13 +3,14 @@ from fastapi import APIRouter, Depends
 from app.crud import mqtt_credentials as crud
 from app.db import get_db
 from app.models.mqtt_credential import MqttCredentialCreate, MqttCredentialOut
+from app.utils.security import get_current_user
 
 
 router = APIRouter()
 
 @router.post("/", status_code=201)
-async def create_mqtt_credential(mqtt_credential: MqttCredentialCreate, conn: asyncpg.Connection = Depends(get_db)):
-    return await crud.create_mqtt_credential(conn, mqtt_credential)
+async def create_mqtt_credential(mqtt_credential: MqttCredentialCreate, conn: asyncpg.Connection = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return await crud.create_mqtt_credential(conn, mqtt_credential, current_user["company_id"])
 
 
 @router.get("/{credential_id}", response_model=MqttCredentialOut)
