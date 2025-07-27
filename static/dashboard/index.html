@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <link href="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css" rel="stylesheet" />
-    <title>VeriAgro</title>
+    <title>VeriAgro - Devices</title>
 </head>
 
 <body>
@@ -15,116 +15,61 @@
                 <a class="navbar-brand navbar-brand-autodark me-3" href="#">VeriAgro</a>
             </div>
         </header>
+
         <div class="page-wrapper">
             <div class="page-body">
                 <div class="container-xl">
-                    <div id="main-content">
-                        <!-- Device Section -->
-                        <div class="row row-deck row-cards" id="device-section">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <form class="row g-3" id="device-form">
-                                            <div class="col-auto"><input class="form-control" id="name"
-                                                    placeholder="Device Name" type="text" /></div>
-                                            <div class="col-auto"><input class="form-control" id="model"
-                                                    placeholder="Model" type="text" /></div>
-                                            <div class="col-auto"><input class="form-control" id="serial_number"
-                                                    placeholder="Serial Number" type="text" /></div>
-                                            <div class="col-auto"><input class="form-control" id="location"
-                                                    placeholder="Location" type="text" /></div>
-                                            <div class="col-auto"><input class="form-control" id="latitude"
-                                                    placeholder="Latitude" type="text" /></div>
-                                            <div class="col-auto"><input class="form-control" id="longitude"
-                                                    placeholder="Longitude" type="text" /></div>
-                                            <div class="col-auto"><button class="btn btn-primary" type="submit">Add
-                                                    Device</button></div>
-                                        </form>
-                                    </div>
+                    <div class="row row-deck row-cards">
+                        <!-- Device Form -->
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Add a New Device</h3>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Devices</h3>
-                                    </div>
-                                    <div class="card-body" id="devices-table-container">Loading...</div>
+                                <div class="card-body">
+                                    <form class="row g-3" id="device-form">
+                                        <div class="col-auto"><input class="form-control" id="name"
+                                                placeholder="Device Name" type="text" /></div>
+                                        <div class="col-auto"><input class="form-control" id="model" placeholder="Model"
+                                                type="text" /></div>
+                                        <div class="col-auto"><input class="form-control" id="serial_number"
+                                                placeholder="Serial Number" type="text" /></div>
+                                        <div class="col-auto"><input class="form-control" id="location"
+                                                placeholder="Location" type="text" /></div>
+                                        <div class="col-auto"><input class="form-control" id="latitude"
+                                                placeholder="Latitude" type="text" /></div>
+                                        <div class="col-auto"><input class="form-control" id="longitude"
+                                                placeholder="Longitude" type="text" /></div>
+                                        <div class="col-auto"><button class="btn btn-primary" type="submit">Add
+                                                Device</button></div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Sensor Section -->
-                        <div class="row row-deck row-cards d-none" id="sensor-section">
-                            <div class="mb-3 text-end"><button class="btn btn-outline-secondary" id="back-button"
-                                    onclick="goBackToDevices()">← Back</button></div>
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title" id="sensor-form-title">Sensors for Device</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <form class="row g-3" id="sensor-form">
-                                            <div class="col-auto"><input class="form-control" id="sensor_name"
-                                                    placeholder="Sensor Name" type="text" /></div>
-                                            <div class="col-auto"><input class="form-control" id="sensor_type"
-                                                    placeholder="Type" type="text" /></div>
-                                            <div class="col-auto"><input class="form-control" id="sensor_model"
-                                                    placeholder="Model" type="text" /></div>
-                                            <div class="col-auto"><input class="form-control" id="sensor_manufacturer"
-                                                    placeholder="Manufacturer" type="text" /></div>
-                                            <div class="col-auto"><button class="btn btn-success" type="submit">Add
-                                                    Sensor</button></div>
-                                        </form>
-                                    </div>
+                        <!-- Device Table -->
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Devices</h3>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body" id="sensors-table-container">Loading sensors...</div>
-                                </div>
+                                <div class="card-body" id="devices-table-container">Loading...</div>
                             </div>
                         </div>
-
-                        <!-- Sensor Data Section -->
-                        <div class="card mt-4" id="sensor-data-section" style="display:none">
-                            <div class="card-header">
-                                <h3 class="card-title">Sensor Data for Device: <span
-                                        id="sensor-data-device-name"></span></h3>
-                            </div>
-                            <div class="card-body" id="sensor-data-table-container">Loading sensor data...</div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                    </div> <!-- /row -->
+                </div> <!-- /container -->
+            </div> <!-- /page-body -->
+        </div> <!-- /page-wrapper -->
+    </div> <!-- /page -->
 
     <script>
         const token = localStorage.getItem("accessToken");
         const API_URL = "http://localhost:8000";
 
         function requireAuth() {
-            if (!token) window.location.href = "/login";
-        }
-
-        function renderDevices(devices) {
-            const container = document.getElementById("devices-table-container");
-            const table = document.createElement("table");
-            table.className = "table table-striped";
-            table.innerHTML = `<thead><tr>
-                <th>Name</th><th>Model</th><th>Serial</th><th>Location</th><th>Lat</th><th>Long</th>
-            </tr></thead><tbody>
-            ${devices.map(d => `
-                <tr data-id="${d.id}" data-name="${d.name}">
-                    <td>${d.name}</td><td>${d.model}</td><td>${d.serial_number}</td>
-                    <td>${d.location}</td><td>${d.latitude}</td><td>${d.longitude}</td>
-                </tr>`).join("")}</tbody>`;
-            container.innerHTML = "";
-            container.appendChild(table);
-            table.querySelectorAll("tr[data-id]").forEach(row => {
-                row.addEventListener("click", () => showSensorSection(row.dataset.id, row.dataset.name));
-            });
+            if (!token) {
+                window.location.href = "/login";
+            }
         }
 
         async function loadDevices() {
@@ -139,64 +84,41 @@
             }
         }
 
-        async function showSensorSection(deviceId, deviceName) {
-            document.getElementById("device-section").classList.add("d-none");
-            document.getElementById("sensor-section").classList.remove("d-none");
-            document.getElementById("sensor-form-title").innerText = `Sensors for Device: ${deviceName} (${deviceId})`;
-            loadSensorData(deviceId, deviceName);
+        function renderDevices(devices) {
+            const container = document.getElementById("devices-table-container");
+            const table = document.createElement("table");
+            table.className = "table table-striped";
+            table.innerHTML = `
+        <thead>
+          <tr><th>Name</th><th>Model</th><th>Serial</th><th>Location</th><th>Lat</th><th>Long</th></tr>
+        </thead>
+        <tbody>
+          ${devices.map(d => `
+            <tr data-id="${d.id}">
+              <td>${d.name}</td>
+              <td>${d.model}</td>
+              <td>${d.serial_number}</td>
+              <td>${d.location}</td>
+              <td>${d.latitude}</td>
+              <td>${d.longitude}</td>
+            </tr>
+          `).join("")}
+        </tbody>
+      `;
 
-            const container = document.getElementById("sensors-table-container");
-            try {
-                const res = await fetch(`${API_URL}/sensors/device/${deviceId}`, {
-                    headers: { Authorization: `Bearer ${token}`, Accept: "application/json" }
+            const wrapper = document.createElement("div");
+            wrapper.className = "table-responsive";
+            wrapper.appendChild(table);
+            container.innerHTML = "";
+            container.appendChild(wrapper);
+
+            // Navigate to /sensor/{id} on row click
+            table.querySelectorAll("tr[data-id]").forEach(row => {
+                row.addEventListener("click", () => {
+                    const deviceId = row.dataset.id;
+                    window.location.href = `/sensor/${deviceId}`;
                 });
-                const sensors = await res.json();
-                const table = document.createElement("table");
-                table.className = "table table-bordered";
-                table.innerHTML = `<thead><tr><th>Name</th><th>Type</th><th>Model</th><th>Manufacturer</th><th>Created At</th></tr></thead><tbody>
-                    ${sensors.map(s => `
-                        <tr>
-                            <td>${s.name}</td><td>${s.type}</td><td>${s.model}</td><td>${s.manufacturer}</td><td>${new Date(s.created_at).toLocaleString()}</td>
-                        </tr>`).join("")}
-                    </tbody>`;
-                container.innerHTML = "";
-                container.appendChild(table);
-            } catch (e) {
-                container.innerHTML = "<p class='text-danger'>Failed to load sensors</p>";
-            }
-        }
-
-        async function loadSensorData(deviceId, deviceName) {
-            const container = document.getElementById('sensor-data-table-container');
-            document.getElementById('sensor-data-section').style.display = 'block';
-            document.getElementById('sensor-data-device-name').innerText = `${deviceName} (${deviceId})`;
-            try {
-                const res = await fetch(`${API_URL}/sensor_data/device/${deviceId}?limit=1000`, {
-                    headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' }
-                });
-                if (!res.ok) throw new Error(`API error: ${res.status}`);
-                const sensorData = await res.json();
-                if (!sensorData.length) {
-                    container.innerHTML = '<p class="text-muted">No sensor data found.</p>';
-                    return;
-                }
-                const table = document.createElement('table');
-                table.className = 'table table-hover';
-                table.innerHTML = `<thead><tr><th>Sensor ID</th><th>Unit</th><th>Value</th><th>Status</th><th>Timestamp</th></tr></thead><tbody>
-                    ${sensorData.map(d => `
-                        <tr><td>${d.sensor_id}</td><td>${d.unit}</td><td>${d.value}</td><td>${d.status}</td><td>${new Date(d.timestamp).toLocaleString()}</td></tr>`).join('')}
-                    </tbody>`;
-                container.innerHTML = '';
-                container.appendChild(table);
-            } catch (err) {
-                container.innerHTML = `<p class="text-danger">Error loading sensor data: ${err.message}</p>`;
-            }
-        }
-
-        function goBackToDevices() {
-            document.getElementById("sensor-section").classList.add("d-none");
-            document.getElementById("sensor-data-section").style.display = "none";
-            document.getElementById("device-section").classList.remove("d-none");
+            });
         }
 
         document.addEventListener("DOMContentLoaded", () => {

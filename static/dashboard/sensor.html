@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css" rel="stylesheet" />
+    <title>VeriAgro - Sensors</title>
+</head>
+
+<body>
+    <div class="page">
+        <header class="navbar navbar-expand-md d-print-none">
+            <div class="container-xl">
+                <a class="navbar-brand navbar-brand-autodark me-3" href="#">VeriAgro</a>
+                <a class="btn btn-outline-secondary ms-auto" href="/dashboard">← Back</a>
+            </div>
+        </header>
+
+        <div class="page-wrapper">
+            <div class="page-body">
+                <div class="container-xl">
+
+                    <!-- Page Title -->
+                    <h2 id="page-title" class="mb-4">Sensors for Device</h2>
+
+                    <!-- Add Sensor Form -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3 class="card-title">Add a New Sensor</h3>
+                        </div>
+                        <div class="card-body">
+                            <form class="row g-3" id="sensor-form">
+                                <div class="col-auto">
+                                    <input class="form-control" id="sensor_name" placeholder="Sensor Name"
+                                        type="text" />
+                                </div>
+                                <div class="col-auto">
+                                    <input class="form-control" id="sensor_type" placeholder="Type" type="text" />
+                                </div>
+                                <div class="col-auto">
+                                    <input class="form-control" id="sensor_model" placeholder="Model" type="text" />
+                                </div>
+                                <div class="col-auto">
+                                    <input class="form-control" id="sensor_manufacturer" placeholder="Manufacturer"
+                                        type="text" />
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-success" type="submit">Add Sensor</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Sensors Table -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3 class="card-title">Sensors</h3>
+                        </div>
+                        <div class="card-body" id="sensors-table-container">Loading sensors...</div>
+                    </div>
+
+                    <!-- Sensor Data Table -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Sensor Data</h3>
+                        </div>
+                        <div class="card-body" id="sensor-data-table-container">Loading sensor data...</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem("accessToken");
+        const API_URL = "http://localhost:8000";
+        let currentDeviceId = null;
+
+        function requireAuth() {
+            if (!token) window.location.href = "/login";
+        }
+
+        function getDeviceIdFromPath() {
+            const parts = window.location.pathname.split('/');
+            const id = parts[parts.length - 1];
+            if (!id || id.length < 10) {
+                alert("Missing device ID");
+                return null;
+            }
+            return id;
+        }
+
+        async function loadSensors(deviceId) {
+            const container = document.getElementById("sensors-table-container");
+            try {
+                const res = await fetch(`${API_URL}/sensors/device/${deviceId}`, {
+                    headers: { Authorization: `Bearer ${token}`, Accept: "application/json" }
+                });
+                const sensors = await res.json();
+                if (!sensors.length) {
+                    container.innerHTML = "<p class='text-muted'>No sensors found.</p>";
+                    return;
+                }
+
+                const table = document.createElement("table");
+                table.className = "table table-bordered table-responsive";
+                table.innerHTML = `
+          <thead><tr>
+            <th>ID</th><th>Name</th><th>Type</th><th>Model</th><th>Manufacturer</th><th>Created</th>
+          </tr></thead>
+          <tbody>
+            ${sensors.map(s => `
+              <tr>
+                <td>${s.id}</td>
+                <td>${s.name}</td>
+                <td>${s.type}</td>
+                <td>${s.model}</td>
+                <td>${s.manufacturer}</td>
+                <td>${new Date(s.created_at).toLocaleString()}</td>
+              </tr>`).join("")}
+          </tbody>`;
+                container.innerHTML = "";
+                container.appendChild(table);
+            } catch (e) {
+                container.innerHTML = `<p class='text-danger'>Failed to load sensors: ${e.message}</p>`;
+            }
+        }
+
+        async function loadSensorData(deviceId) {
+            const container = document.getElementById("sensor-data-table-container");
+            try {
+                const res = await fetch(`${API_URL}/sensor_data/device/${deviceId}?limit=1000`, {
+                    headers: { Authorization: `Bearer ${token}`, Accept: "application/json" }
+                });
+                const data = await res.json();
+                if (!data.length) {
+                    container.innerHTML = "<p class='text-muted'>No sensor data available.</p>";
+                    return;
+                }
+
+                const table = document.createElement("table");
+                table.className = "table table-hover table-responsive";
+                table.innerHTML = `
+          <thead><tr>
+            <th>Sensor ID</th><th>Unit</th><th>Value</th><th>Status</th><th>Timestamp</th>
+          </tr></thead>
+          <tbody>
+            ${data.map(d => `
+              <tr>
+                <td>${d.sensor_id}</td>
+                <td>${d.unit}</td>
+                <td>${d.value}</td>
+                <td>${d.status}</td>
+                <td>${new Date(d.timestamp).toLocaleString()}</td>
+              </tr>`).join("")}
+          </tbody>`;
+                container.innerHTML = "";
+                container.appendChild(table);
+            } catch (e) {
+                container.innerHTML = `<p class='text-danger'>Failed to load sensor data: ${e.message}</p>`;
+            }
+        }
+
+        async function handleSensorFormSubmit(e) {
+            e.preventDefault();
+            const body = {
+                name: document.getElementById("sensor_name").value.trim(),
+                type: document.getElementById("sensor_type").value.trim(),
+                model: document.getElementById("sensor_model").value.trim(),
+                manufacturer: document.getElementById("sensor_manufacturer").value.trim(),
+                device_id: currentDeviceId
+            };
+
+            if (!body.name || !body.type) {
+                alert("Name and Type are required");
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/sensors/`, {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(body)
+                });
+                if (!res.ok) throw new Error(await res.text());
+                document.getElementById("sensor-form").reset();
+                await loadSensors(currentDeviceId);
+            } catch (err) {
+                alert(`Failed to add sensor: ${err.message}`);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            requireAuth();
+            currentDeviceId = getDeviceIdFromPath();
+            if (!currentDeviceId) return;
+            document.getElementById("page-title").innerText = `Sensors for Device: ${currentDeviceId}`;
+            document.getElementById("sensor-form").addEventListener("submit", handleSensorFormSubmit);
+            loadSensors(currentDeviceId);
+            loadSensorData(currentDeviceId);
+        });
+    </script>
+</body>
+
+</html>

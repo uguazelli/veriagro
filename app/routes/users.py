@@ -42,7 +42,7 @@ async def login(user: UserLogin, conn: asyncpg.Connection = Depends(get_db)):
     if not db_user or not verify_password(user.password, db_user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
-    access_token_expires = timedelta(minutes=30)
+    access_token_expires = timedelta(minutes=44640)  # 31 days
     access_token = create_access_token(data={"sub": str(db_user.id)}, expires_delta=access_token_expires)
 
     return TokenOut(access_token=access_token, token_type="bearer")

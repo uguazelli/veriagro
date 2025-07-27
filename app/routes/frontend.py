@@ -16,3 +16,6 @@ def register(): return FileResponse("static/register.html")
 
 @router.get("/dashboard")
 def dashboard(): return FileResponse("static/dashboard/index.html")
+
+@router.get("/sensor/{id}")
+def dashboard(): return FileResponse("static/dashboard/sensor.html")
