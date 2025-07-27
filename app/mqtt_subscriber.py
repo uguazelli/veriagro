@@ -2,7 +2,7 @@ import os
 import json
 from aiomqtt import Client
 from app.models.sensor_data import SensorDataIn
-from app.crud.sensor_data import insert_sensor_data
+from app.crud.sensor_data import create_sensor_data
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -24,7 +24,7 @@ async def mqtt_listener():
                     data = json.loads(payload)
 
                     sensor_data = SensorDataIn(**data)
-                    await insert_sensor_data(sensor_data)
+                    await create_sensor_data(sensor_data)
 
                 except Exception as e:
                     print(f"🛑 Erro ao processar mensagem MQTT: {e}")

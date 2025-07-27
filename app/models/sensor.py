@@ -9,7 +9,7 @@ class SensorCreate(BaseModel):
     type: Optional[str]
     model: Optional[str]
     manufacturer: Optional[str]
-    model_id: Optional[UUID]
+    model_id: Optional[str]
     config: Optional[Dict]
 
 class SensorOut(BaseModel):
@@ -19,6 +19,6 @@ class SensorOut(BaseModel):
     type: Optional[str]
     model: Optional[str]
     manufacturer: Optional[str]
-    model_id: Optional[UUID]
+    model_id: Optional[str]
     config: Optional[Dict]
     created_at: Optional[datetime]

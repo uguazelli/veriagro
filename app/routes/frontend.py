@@ -6,7 +6,7 @@ from fastapi.responses import FileResponse
 router = APIRouter()
 
 @router.get("/login")
-def login(): return FileResponse("static/login.html")
+def login(): return FileResponse("static/login/index.html")
 
 @router.get("/register")
 def register(): return FileResponse("static/register.html")
@@ -15,4 +15,4 @@ def register(): return FileResponse("static/register.html")
 # def dashboard(): return FileResponse("static/dashboard.html")
 
 @router.get("/dashboard")
-def dashboard(): return FileResponse("static/veriagro-dashboard/index.html")
+def dashboard(): return FileResponse("static/dashboard/index.html")

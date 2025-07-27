@@ -55,3 +55,10 @@
      ring-color: var(--primary-color);
      border-color: var(--primary-color);
  }
+
+ .tabulator {
+     background-color: #1f2937;
+     /* Tailwind gray-800 */
+     color: #e5e7eb;
+     /* Tailwind gray-200 */
+ }

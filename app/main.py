@@ -30,7 +30,6 @@ origins = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     "*"
-
 ]
 
 app.add_middleware(
@@ -46,10 +45,10 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 app.include_router(frontend.router, tags=["Frontend"])
 app.include_router(admin.router, prefix="/admin", tags=["Admin"])
 
-app.include_router(companies.router, prefix="/companies", tags=["Comapnies"])
+app.include_router(companies.router, prefix="/companies", tags=["Companies"])
 app.include_router(users.router, prefix="/users", tags=["Users"])
-app.include_router(sensors.router, prefix="/sensors", tags=["Sensors"])
-app.include_router(sensor_data.router, prefix="/sensor_data", tags=["Sensor Data"])
 app.include_router(devices.router, prefix="/devices", dependencies=[Depends(get_current_user)], tags=["Devices"])
-app.include_router(mqtt_topics.router, prefix="/topics", tags=["Topics"])
-app.include_router(mqtt_credentials.router, prefix="/mqtt_credential", tags=["MQTT Credential"])
+app.include_router(sensors.router, prefix="/sensors", dependencies=[Depends(get_current_user)], tags=["Sensors"])
+app.include_router(sensor_data.router, prefix="/sensor_data", dependencies=[Depends(get_current_user)], tags=["Sensor Data"])
+app.include_router(mqtt_topics.router, prefix="/topics", dependencies=[Depends(get_current_user)], tags=["Topics"])
+app.include_router(mqtt_credentials.router, prefix="/mqtt_credential", dependencies=[Depends(get_current_user)], tags=["MQTT Credential"])

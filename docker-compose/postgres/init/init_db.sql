@@ -102,7 +102,7 @@ CREATE TABLE sensors (
     type TEXT,
     model TEXT,
     manufacturer TEXT,
-    model_id UUID REFERENCES sensor_models(id),
+    model_id TEXT,
     config JSONB,
     created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now()
 );
